@@ -280,6 +280,7 @@ public enum EGame : uint
         GAME_StarWarsGalacticRacer = GAME_UE5_7 + 11,
     GAME_UE5_8 = GameUtils.GameUe5Base + (8 << 16),
         GAME_ConanExilesEnhanced = GAME_UE5_8 + 1,
+        GAME_ArkSurvivalAscended5_8 = GAME_UE5_8 + 2,
     GAME_UE5_9 = GameUtils.GameUe5Base + (9 << 16),
 
     GAME_UE5_LATEST = GAME_UE5_9,

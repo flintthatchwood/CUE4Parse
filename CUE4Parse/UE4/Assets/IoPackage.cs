@@ -25,6 +25,7 @@ public sealed class IoPackage : AbstractUePackage
     private readonly IoGlobalData _globalData;
     private readonly EGame _game;
 
+    public static string[] IgnoredExportTypes = [];
     public override FPackageFileSummary Summary { get; }
     public override FNameEntrySerialized[] NameMap { get; }
     public override int ImportMapLength => ImportMap.Length;
@@ -501,7 +502,9 @@ public sealed class IoPackage : AbstractUePackage
                 var Ar = (FAssetArchive) uassetAr.Clone();
                 Ar.AbsoluteOffset = newPos ? realm.CookedHeaderSize - realm.AllExportDataOffset : (int) export.CookedSerialOffset - pos;
                 Ar.Position = pos;
-                DeserializeObject(obj, Ar, (long) export.CookedSerialSize);
+                if(!IgnoredExportTypes.Contains(obj.ExportType)) {
+                    DeserializeObject(obj, Ar, (long) export.CookedSerialSize);
+                }
                 obj.Flags |= EObjectFlags.RF_LoadCompleted;
                 obj.PostLoad();
                 return obj;

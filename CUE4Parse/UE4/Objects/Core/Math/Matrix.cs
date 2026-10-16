@@ -66,7 +66,8 @@ namespace CUE4Parse.UE4.Objects.Core.Math
             M30 = inW.X; M31 = inW.Y; M32 = inW.Z; M33 = 1.0f;
         }
 
-        public FMatrix(FArchive Ar) : this(Ar, Ar.Ver >= EUnrealEngineObjectUE5Version.LARGE_WORLD_COORDINATES) { }
+        // Ark doesn't use doubles for FMatrix
+        public FMatrix(FArchive Ar) : this(Ar, Ar.Game is not (EGame.GAME_ARKSurvivalAscended or EGame.GAME_ArkSurvivalAscended5_8) && Ar.Ver >= EUnrealEngineObjectUE5Version.LARGE_WORLD_COORDINATES) { }
 
         public FMatrix(FArchive Ar, bool readDouble)
         {

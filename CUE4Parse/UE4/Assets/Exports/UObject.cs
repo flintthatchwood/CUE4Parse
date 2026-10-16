@@ -490,15 +490,6 @@ public class UObject : AbstractPropertyHolder
         writer.WritePropertyName(nameof(Name)); // ctrl click depends on the name, we always need it
         writer.WriteValue(Name);
 
-        writer.WritePropertyName(nameof(Flags));
-        writer.WriteValue(Flags.ToStringBitfield());
-
-        if (Class is { Object.Value: { } clas })
-        {
-            writer.WritePropertyName(nameof(Class));
-            writer.WriteValue(clas.GetFullName());
-        }
-
         if (Outer is not null && Outer is not ResolvedPackageObject)
         {
             writer.WritePropertyName(nameof(Outer));
@@ -508,6 +499,12 @@ public class UObject : AbstractPropertyHolder
         {
             writer.WritePropertyName("Package");
             writer.WriteValue(Owner.Name);
+        }
+
+        if (Class is { Object.Value: { } clas })
+        {
+            writer.WritePropertyName(nameof(Class));
+            writer.WriteValue(clas.GetFullName());
         }
 
         if (Super != null)
@@ -521,6 +518,9 @@ public class UObject : AbstractPropertyHolder
             writer.WritePropertyName(nameof(Template));
             serializer.Serialize(writer, Template);
         }
+
+        writer.WritePropertyName(nameof(Flags));
+        writer.WriteValue(Flags.ToStringBitfield());
 
         if (Properties.Count > 0)
         {
