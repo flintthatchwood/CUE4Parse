@@ -6,6 +6,9 @@ namespace CUE4Parse.UE4.Assets.Exports.Component.Landscape;
 
 public class ULandscapeHeightfieldCollisionComponent : USceneComponent
 {
+    public static bool ReadCookedCollisionData { get; set; }
+    public byte[]? CookedCollisionData;
+
     public override void Deserialize(FAssetArchive Ar, long validPos)
     {
         base.Deserialize(Ar, validPos);
@@ -27,8 +30,10 @@ public class ULandscapeHeightfieldCollisionComponent : USceneComponent
                 if (Ar.Game >= GAME_UE4_14)
                     if (Ar.Game == GAME_PlayerUnknownsBattlegrounds)
                         _ = new FByteBulkData(Ar);
+                    else if (ReadCookedCollisionData)
+                        CookedCollisionData = Ar.ReadBulkArray<byte>();
                     else
-                        Ar.SkipBulkArrayData(); // CookedCollisionData
+                        Ar.SkipBulkArrayData();
                 else
                     Ar.SkipFixedArray(1);
             }
